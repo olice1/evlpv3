@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm rebuild && npm run build",
+  "buildCommand": "pnpm run build",
   "outputDirectory": "dist",
   "framework": null
 }
