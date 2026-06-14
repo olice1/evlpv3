@@ -10,6 +10,22 @@ const copy = {
     label: "العربية",
     metaTitle: "CoinCarrière - منصة التوظيف الذكية لتقنيي EV بالمغرب",
     metaDescription: "لقّي تقني EV مناسب بلا ما تضيع ساعات فـ CVs. CoinCarrière كتجيب لك غير المرشحين اللي مناسبين مع الورشة ديالك فدقائق ماشي أيام.",
+    privacy: {
+      title: "سياسة الخصوصية",
+      lastUpdated: "آخر تحديث: 19 أفريل 2026",
+      section1: "الهوية",
+      company: "9558-9321 Quebec inc.، تدير تحت اسم CoinCarrière",
+      contact: "للاتصال بنا: contact@coincarriere.com"
+    },
+    terms: {
+      title: "شروط الاستخدام العامة",
+      lastUpdated: "آخر تحديث: 19 أفريل 2026",
+      section1: "الموضوع",
+      intro: "تنظم شروط الاستخدام العامة هذه الوصول والاستخدام لمنصة CoinCarrière."
+    },
+    contact: {
+      title: "اتصل بنا"
+    },
     ctaPrimary: "جرّب دابا",
     ctaSecondary: "شوف كيفاش كتخدم",
     headerCta: "بدا دابا",
@@ -151,6 +167,22 @@ const copy = {
     label: "Français",
     metaTitle: "CoinCarrière - Recrutez le bon technicien EV",
     metaDescription: "CoinCarrière vous connecte aux candidats EV adaptés à votre atelier en quelques minutes, pas en plusieurs jours.",
+    privacy: {
+      title: "Politique de Confidentialité",
+      lastUpdated: "Dernière mise à jour : 19 avril 2026",
+      section1: "Identité du responsable du traitement",
+      company: "Le site coincarriere.com est exploité par : 9558-9321 Quebec inc., NEQ : 1181724304",
+      contact: "Pour contacter : privacy@coincarriere.com"
+    },
+    terms: {
+      title: "Conditions Générales d'Utilisation",
+      lastUpdated: "Dernière mise à jour : 19 avril 2026",
+      section1: "Objet",
+      intro: "Les présentes Conditions Générales d'Utilisation régissent l'accès et l'utilisation de la plateforme CoinCarrière."
+    },
+    contact: {
+      title: "Contactez-nous"
+    },
     ctaPrimary: "Essayer maintenant",
     ctaSecondary: "Voir comment ça marche",
     headerCta: "Commencer",
@@ -292,6 +324,22 @@ const copy = {
     label: "English",
     metaTitle: "CoinCarrière - Hire the right EV technician",
     metaDescription: "CoinCarrière connects your workshop with EV candidates that fit in minutes, not days.",
+    privacy: {
+      title: "Privacy Policy",
+      lastUpdated: "Last updated: April 19, 2026",
+      section1: "Data Controller Identity",
+      company: "The site coincarriere.com is operated by: 9558-9321 Quebec inc., NEQ: 1181724304",
+      contact: "Contact: privacy@coincarriere.com"
+    },
+    terms: {
+      title: "Terms of Service",
+      lastUpdated: "Last updated: April 19, 2026",
+      section1: "Subject",
+      intro: "These Terms of Service govern access to and use of the CoinCarrière platform."
+    },
+    contact: {
+      title: "Contact Us"
+    },
     ctaPrimary: "Try it now",
     ctaSecondary: "See how it works",
     headerCta: "Get started",
@@ -1592,14 +1640,195 @@ function FAQ({ t }: { t: Copy }) {
 }
 
 function Footer({ t }: { t: Copy }) {
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+
   return (
-    <footer className="bg-white py-8">
-      <div className="brand-divider mb-8" />
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-center sm:flex-row sm:px-6 sm:text-start lg:px-8">
-        <CoinCarriereLogo className="h-12" />
-        <p className="text-sm font-extrabold text-brand-navy/68">{t.footer}</p>
+    <>
+      <footer className="bg-white py-8">
+        <div className="brand-divider mb-8" />
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-center sm:flex-row sm:px-6 sm:text-start lg:px-8">
+          <CoinCarriereLogo className="h-12" />
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+            <p className="text-sm font-extrabold text-brand-navy/68">{t.footer}</p>
+            <div className="flex items-center gap-4 text-xs font-bold">
+              <button onClick={() => setShowPrivacy(true)} className="text-brand-navy/60 hover:text-brand-cyan transition-colors">{t.privacy.title}</button>
+              <span className="text-brand-navy/20">|</span>
+              <button onClick={() => setShowTerms(true)} className="text-brand-navy/60 hover:text-brand-cyan transition-colors">{t.terms.title}</button>
+              <span className="text-brand-navy/20">|</span>
+              <button onClick={() => setShowContact(true)} className="text-brand-navy/60 hover:text-brand-cyan transition-colors">{t.contact.title}</button>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <Modal open={showPrivacy} onClose={() => setShowPrivacy(false)} title={t.privacy.title} lang={t.dir}>
+        <PrivacyContent t={t} />
+      </Modal>
+
+      <Modal open={showTerms} onClose={() => setShowTerms(false)} title={t.terms.title} lang={t.dir}>
+        <TermsContent t={t} />
+      </Modal>
+
+      <Modal open={showContact} onClose={() => setShowContact(false)} title={t.contact.title} lang={t.dir}>
+        <ContactContent t={t} />
+      </Modal>
+    </>
+  );
+}
+
+function Modal({ open, onClose, title, children, lang }: { open: boolean; onClose: () => void; title: string; children: ReactNode; lang: "rtl" | "ltr" }) {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" dir={lang}>
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative max-w-3xl w-full max-h-[85vh] overflow-y-auto bg-white rounded-3xl shadow-2xl border border-brand-navy/10">
+        <div className="sticky top-0 bg-white/95 backdrop-blur-xl border-b border-brand-navy/10 p-6 flex items-center justify-between">
+          <h2 className="text-2xl font-black text-brand-ink">{title}</h2>
+          <button onClick={onClose} className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-navy/5 text-brand-navy hover:bg-brand-cyan hover:text-white transition">
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="p-6 sm:p-8 text-start">
+          {children}
+        </div>
       </div>
-    </footer>
+    </div>
+  );
+}
+
+function PrivacyContent({ t }: { t: Copy }) {
+  const isRTL = t.dir === "rtl";
+  return (
+    <div className="space-y-6 text-sm leading-relaxed" dir={t.dir}>
+      <p className="text-xs font-bold text-brand-navy/50">{t.privacy.lastUpdated}</p>
+      
+      <div>
+        <h3 className="text-lg font-black text-brand-ink mb-3">{t.privacy.section1}</h3>
+        <p className="text-brand-navy/80">
+          {t.privacy.company}<br />
+          {t.privacy.contact}
+        </p>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-black text-brand-ink mb-3">
+          {isRTL ? "معالجة البيانات" : t.label === "Français" ? "Traitement des données" : "Data Processing"}
+        </h3>
+        <p className="text-brand-navy/80">
+          {isRTL 
+            ? "نجمع معلوماتك الشخصية فقط لتوفير خدمات التوظيف وتحسين منصتنا. تشمل البيانات التي نجمعها: الاسم والبريد الإلكتروني ورقم الهاتف والمهارات المهنية."
+            : t.label === "Français"
+            ? "Nous collectons vos informations personnelles uniquement pour fournir les services de recrutement et améliorer notre plateforme. Les données incluent: nom, email, téléphone et compétences professionnelles."
+            : "We collect your personal information solely to provide recruitment services and improve our platform. Data includes: name, email, phone and professional skills."}
+        </p>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-black text-brand-ink mb-3">
+          {isRTL ? "حقوقك" : t.label === "Français" ? "Vos droits" : "Your Rights"}
+        </h3>
+        <p className="text-brand-navy/80">
+          {isRTL 
+            ? "يحق لك طلب الوصول إلى بياناتك، تصحيحها، أو حذفها. لمزيد من المعلومات يرجى زيارة موقعنا أو مراسلتنا."
+            : t.label === "Français"
+            ? "Vous avez le droit d'accéder à vos données, de les corriger ou de les supprimer. Pour plus d'informations, veuillez consulter notre site ou nous contacter."
+            : "You have the right to access your data, correct it, or delete it. For more information, please visit our site or contact us."}
+        </p>
+      </div>
+
+      <p className="text-xs text-brand-navy/50 pt-4 border-t border-brand-navy/10">
+        © 2026 CoinCarrière. {isRTL ? "جميع الحقوق محفوظة" : "Tous droits réservés"}
+      </p>
+    </div>
+  );
+}
+
+function TermsContent({ t }: { t: Copy }) {
+  const isRTL = t.dir === "rtl";
+  return (
+    <div className="space-y-6 text-sm leading-relaxed" dir={t.dir}>
+      <p className="text-xs font-bold text-brand-navy/50">{t.terms.lastUpdated}</p>
+      
+      <div>
+        <h3 className="text-lg font-black text-brand-ink mb-3">{t.terms.section1}</h3>
+        <p className="text-brand-navy/80">{t.terms.intro}</p>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-black text-brand-ink mb-3">
+          {isRTL ? "الالتزامات" : t.label === "Français" ? "Obligations" : "Obligations"}
+        </h3>
+        <p className="text-brand-navy/80">
+          {isRTL 
+            ? "يجب على المستخدمين احترام القوانين واللوائح المعمولة بالمغرب والولايات المتحدة والكندا والاتحاد الأوروبي."
+            : t.label === "Français"
+            ? "Les utilisateurs doivent respecter les lois et réglementations en vigueur au Maroc, aux États-Unis, au Canada et dans l'Union européenne."
+            : "Users must comply with laws and regulations in Morocco, the United States, Canada and the European Union."}
+        </p>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-black text-brand-ink mb-3">
+          {isRTL ? "المحتوى" : t.label === "Français" ? "Contenu" : "Content"}
+        </h3>
+        <p className="text-brand-navy/80">
+          {isRTL 
+            ? "المحتوى الذي تنشره تبقى ملكك، ولكنك تمنحنا ترخيصًا غير حصري لاستخدامه ضمن خدماتنا."
+            : t.label === "Français"
+            ? "Le contenu que vous publiez vous appartient, mais vous nous accordez une licence non exclusive pour l'utiliser dans le cadre de nos services."
+            : "The content you publish remains yours, but you grant us a non-exclusive license to use it within our services."}
+        </p>
+      </div>
+
+      <p className="text-xs text-brand-navy/50 pt-4 border-t border-brand-navy/10">
+        © 2026 CoinCarrière. {isRTL ? "جميع الحقوق محفوظة" : "Tous droits réservés"}
+      </p>
+    </div>
+  );
+}
+
+function ContactContent({ t }: { t: Copy }) {
+  const isRTL = t.dir === "rtl";
+  return (
+    <div className="space-y-6 text-sm leading-relaxed" dir={t.dir}>
+      <p className="text-brand-navy/80">
+        {isRTL ? "نحن هنا للإجابة على استفساراتكم." : t.label === "Français" ? "Nous sommes là pour répondre à vos questions." : "We are here to answer your questions."}
+      </p>
+      
+      <div>
+        <h3 className="text-lg font-black text-brand-ink mb-3">
+          {isRTL ? "معلومات الاتصال" : t.label === "Français" ? "Coordonnées" : "Contact Information"}
+        </h3>
+        <p className="text-brand-navy/80">
+          {isRTL ? "البريد الإلكتروني" : t.label === "Français" ? "Email" : "Email"}: contact@coincarriere.com<br />
+          {isRTL ? "العنوان" : t.label === "Français" ? "Adresse" : "Address"}: {isRTL ? "كيبك، كندا" : "Quebec, QC, Canada"}
+        </p>
+      </div>
+
+      <div className="bg-paper rounded-2xl p-5 border border-brand-navy/10">
+        <p className="text-brand-navy/70 text-xs">
+          {isRTL ? "نرد خلال 24-48 ساعة في أيام العمل." : t.label === "Français" ? "Nous répondons sous 24-48h en jours ouvrables." : "We respond within 24-48 hours on business days."}
+        </p>
+      </div>
+
+      <p className="text-xs text-brand-navy/50 pt-4 border-t border-brand-navy/10">
+        © 2026 CoinCarrière. {isRTL ? "جميع الحقوق محفوظة" : "Tous droits réservés"}
+      </p>
+    </div>
   );
 }
 
@@ -1641,14 +1870,14 @@ export default function App() {
       <Header lang={lang} setLang={setLang} t={t} />
       <Hero t={t} />
       <Problem t={t} />
-      <LiveMatcher t={t} lang={lang} />
+      {/* <LiveMatcher t={t} lang={lang} /> */}
       <Solution t={t} />
       <HowItWorks t={t} />
       <RoiCalculator t={t} lang={lang} />
       <Value t={t} />
       <Proof t={t} />
       <FinalCTA t={t} />
-      <LeadSection t={t} />
+      {/* <LeadSection t={t} /> */}
       <FAQ t={t} />
       <Footer t={t} />
       <MobileStickyCTA t={t} />
