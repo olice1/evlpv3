@@ -1,3 +1,7 @@
+# Logs
+*.log
+npm-debug.log*
+
 # Dependencies
 node_modules/
 
@@ -8,9 +12,16 @@ dist/
 .vite/
 .vite-cache/
 
-# Logs
-*.log
-npm-debug.log*
+# Vite files
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Vite related
+.cache/
+.parcel-cache
+
+# TypeScript
+*.tsbuildinfo
 
 # OS files
 .DS_Store
@@ -24,16 +35,12 @@ Thumbs.db
 
 # Env files
 .env
-.env.local
-.env.*.local
-
-# Git
-.git/
+.env.*
 
 # Archives
 *.zip
 *.tar.gz
 *.rar
 
-# Ignore dist for Vercel - build happens on deployment
-dist/
+# Ignore git directory itself
+.git/
