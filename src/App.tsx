@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "./utils/cn";
 
-const CTA_LINK = "https://coincarriere.com/register?type=company";
+const CTA_LINK = "https://go.coincarriere.com/5A4H/2J2C9/?px=1501789044775340&source=fb&visitor_id={fbclid}&fbclid={fbclid}&campaign_id={{campaign.id}}&adset_id={{adset.id}}&ad_id={{ad.id}}&ad_name={{ad.name}}&adset_name={{adset.name}}&campaign_name={{campaign.name}}";
 const OFFICIAL_LOGO_URL = "https://cdn.coincarriere.com/wp-content/uploads/2025/11/1762829178875-w23oav1d4pb.png";
 
 const copy = {
